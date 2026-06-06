@@ -2,7 +2,7 @@ return {
   "nvim-lualine/lualine.nvim",
 opts = {
     options = {
-      theme = "kanagawa",
+      theme = "everforest",
       component_separators = "|",
       section_separators = "",
     },

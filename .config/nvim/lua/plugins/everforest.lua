@@ -1,17 +1,16 @@
 return {
   {
-    "rebelot/kanagawa.nvim",
+    "sainnhe/everforest",
     lazy = false,
     priority = 1000,
     config = function()
-      require("kanagawa").setup({
-        background = { dark = "wave", light = "lotus" },
-      })
+      vim.g.everforest_background = "medium"
+      vim.g.everforest_better_performance = 1
 
       local colormode_file = vim.fn.expand("~/.config/colormode")
       local ok, lines = pcall(vim.fn.readfile, colormode_file)
       vim.o.background = (ok and lines[1] == "dark") and "dark" or "light"
-      vim.cmd("colorscheme kanagawa")
+      vim.cmd("colorscheme everforest")
 
       vim.api.nvim_create_user_command("Dark", function()
         vim.o.background = "dark"

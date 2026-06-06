@@ -30,7 +30,7 @@ require("lazy").setup({
     { import = "plugins" },
   },
   defaults = { lazy = true },
-  install = { colorscheme = { "kanagawa" } },
+  install = { colorscheme = { "everforest" } },
   checker = { enabled = true },
   ui = {},
 })
