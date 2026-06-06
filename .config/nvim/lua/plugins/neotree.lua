@@ -4,6 +4,7 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
+    "nvim-tree/nvim-web-devicons",
   },
   cmd = "Neotree",
   keys = {
@@ -12,34 +13,20 @@ return {
   config = function(_, opts)
     require("neo-tree").setup(opts)
 
-    local function set_dir_hl()
+    -- Wrap neo-tree's highlights.setup so our override runs immediately
+    -- after it every time (ColorScheme changes, initial load, etc.)
+    local hl = require("neo-tree.ui.highlights")
+    local orig_setup = hl.setup
+    hl.setup = function(...)
+      orig_setup(...)
       vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { bold = true })
     end
-    set_dir_hl()
-    vim.api.nvim_create_autocmd("ColorScheme", {
-      callback = function() vim.schedule(set_dir_hl) end,
-    })
+    vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { bold = true })
   end,
   opts = {
     default_component_configs = {
-      icon = {
-        enabled = false,
-      },
       indent = {
         with_markers = false,
-      },
-      git_status = {
-        symbols = {
-          added     = "A",
-          modified  = "M",
-          deleted   = "D",
-          renamed   = "R",
-          untracked = "?",
-          ignored   = "-",
-          unstaged  = "!",
-          staged    = "S",
-          conflict  = "C",
-        },
       },
     },
     filesystem = {
