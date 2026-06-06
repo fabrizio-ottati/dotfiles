@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Usage: theme [dark|light|toggle]
+set -euo pipefail
+
+COLORMODE_FILE="$HOME/.config/colormode"
+MODE="${1:-toggle}"
+
+if [ "$MODE" = "toggle" ]; then
+    current=$(cat "$COLORMODE_FILE" 2>/dev/null || echo "light")
+    MODE=$( [ "$current" = "dark" ] && echo "light" || echo "dark" )
+fi
+
+if [ "$MODE" != "dark" ] && [ "$MODE" != "light" ]; then
+    echo "Usage: theme [dark|light|toggle]" >&2
+    exit 1
+fi
+
+echo "$MODE" > "$COLORMODE_FILE"
+
+# --- tmux ---
+if [ -n "${TMUX:-}" ] || pgrep -x tmux > /dev/null 2>&1; then
+    tmux source-file "$HOME/.config/tmux/tmux.conf" 2>/dev/null || true
+fi
+
+# --- neovim: update all running instances ---
+BG=$( [ "$MODE" = "dark" ] && echo "dark" || echo "light" )
+for socket in $(find /tmp /var/folders -name "nvim.*" -type s 2>/dev/null); do
+    nvim --server "$socket" \
+        --remote-expr "execute('set background=$BG | colorscheme kanagawa')" \
+        2>/dev/null || true
+done
+
+# --- iTerm2 ---
+PRESET=$( [ "$MODE" = "dark" ] && echo "kanagawa" || echo "kanagawa_lotus" )
+osascript 2>/dev/null <<APPLESCRIPT || true
+    tell application "iTerm2"
+        tell current session of current window
+            set color preset to "$PRESET"
+        end tell
+    end tell
+APPLESCRIPT

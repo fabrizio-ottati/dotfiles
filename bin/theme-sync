@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Called by LaunchAgent when macOS appearance changes.
+# Syncs theme to match current macOS dark/light mode.
+set -euo pipefail
+
+COLORMODE_FILE="$HOME/.config/colormode"
+
+if defaults read -g AppleInterfaceStyle 2>/dev/null | grep -qi "dark"; then
+    NEW_MODE="dark"
+else
+    NEW_MODE="light"
+fi
+
+CURRENT=$(cat "$COLORMODE_FILE" 2>/dev/null || echo "")
+if [ "$CURRENT" = "$NEW_MODE" ]; then
+    exit 0  # already in sync, nothing to do
+fi
+
+exec "$HOME/code/dotfiles/bin/theme" "$NEW_MODE"
