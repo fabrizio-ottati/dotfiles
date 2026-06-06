@@ -9,6 +9,17 @@ return {
   keys = {
     { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer" },
   },
+  config = function(_, opts)
+    require("neo-tree").setup(opts)
+
+    local function set_dir_hl()
+      vim.api.nvim_set_hl(0, "NeoTreeDirectoryName", { bold = true })
+    end
+    set_dir_hl()
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      callback = function() vim.schedule(set_dir_hl) end,
+    })
+  end,
   opts = {
     default_component_configs = {
       icon = {
