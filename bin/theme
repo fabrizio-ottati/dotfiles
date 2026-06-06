@@ -26,12 +26,12 @@ fi
 BG=$( [ "$MODE" = "dark" ] && echo "dark" || echo "light" )
 for socket in $(find /tmp /var/folders -name "nvim.*" -type s 2>/dev/null); do
     nvim --server "$socket" \
-        --remote-expr "execute('set background=$BG | colorscheme kanagawa')" \
+        --remote-expr "execute('set background=$BG | colorscheme everforest')" \
         2>/dev/null || true
 done
 
 # --- iTerm2 ---
-PRESET=$( [ "$MODE" = "dark" ] && echo "kanagawa" || echo "kanagawa_lotus" )
+PRESET=$( [ "$MODE" = "dark" ] && echo "Everforest Dark Medium" || echo "Everforest Light Medium" )
 osascript 2>/dev/null <<APPLESCRIPT || true
     tell application "iTerm2"
         tell current session of current window
