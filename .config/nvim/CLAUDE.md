@@ -14,7 +14,14 @@
 
 Never modify files or create commits without first drafting a plan and getting explicit approval.
 
-After modifying any plugin config, run `:source test/run.lua` and confirm all tests pass before committing.
+After modifying any plugin config, run the test suite headlessly and confirm all 18 tests pass before reporting the task complete or committing:
+
+```bash
+cd /Users/fab/.config/nvim && nvim --headless \
+  -c "lua vim.notify = function(msg) io.write(msg .. '\n') io.flush() end" \
+  -c "source test/run.lua" \
+  -c "qa!" 2>&1
+```
 
 ## Commit style
 

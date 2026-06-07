@@ -5,34 +5,22 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
     },
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
-      -- 1. Setup Mason
-      require("mason").setup()
-
-      -- 2. Setup Mason-Lspconfig with handlers
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "pyright",
-          "clangd",
-          "rust_analyzer",
-        },
-        -- This replaces the manual setup_handlers call
-        handlers = {
-          -- The first entry is the default setup for all servers
-          function(server_name)
-            require("lspconfig")[server_name].setup({})
-          end,
-
-          -- You can add specific overrides here
-          ["clangd"] = function()
-            require("lspconfig").clangd.setup({
-              cmd = { "clangd", "--background-index", "--mlir-tidy" },
-              filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto", "mlir" },
-            })
-          end,
-        },
+      vim.lsp.config('*', {
+        capabilities = require('cmp_nvim_lsp').default_capabilities(),
       })
 
+      vim.lsp.config('clangd', {
+        cmd = { "clangd", "--background-index", "--clang-tidy" },
+        filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto", "mlir" },
+      })
+
+      require("mason").setup()
+
+      require("mason-lspconfig").setup({
+        ensure_installed = { "pyright", "clangd", "rust_analyzer" },
+      })
     end,
   },
 }
