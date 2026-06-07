@@ -14,6 +14,7 @@ return {
         ensure_installed = {
           "pyright",
           "clangd",
+          "rust_analyzer",
         },
         -- This replaces the manual setup_handlers call
         handlers = {

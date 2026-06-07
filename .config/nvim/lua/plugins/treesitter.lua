@@ -39,6 +39,7 @@ return {
       once = true,
       callback = function()
         ts.install({
+          'asm',
           'bash',
           'c',
           'cpp',

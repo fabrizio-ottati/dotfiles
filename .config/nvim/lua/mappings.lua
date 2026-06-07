@@ -21,7 +21,5 @@ map("n", "]d", vim.diagnostic.goto_next)
 
 -- Plugin-managed keys (defined in plugin spec `keys` tables):
 --   <leader>e           neotree toggle          (neotree.lua)
---   <M-t>               toggleterm toggle        (toggleterm.lua)
---   <leader>g           lazygit                  (toggleterm.lua)
 --   <leader>ff/fg/fb    telescope files/grep/buffers
 --   <leader>ls/ws/D     telescope LSP symbols/diagnostics
