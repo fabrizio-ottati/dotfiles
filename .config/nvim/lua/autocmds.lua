@@ -1,8 +1,9 @@
 vim.filetype.add {
   extension = {
     mlir = "mlir",
+    ron = "ron",
     td = "tablegen",
-    cl = "cpp", 
+    cl = "cpp",
     spvasm = "asm",
   },
 }

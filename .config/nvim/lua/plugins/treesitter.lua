@@ -48,6 +48,7 @@ return {
           'markdown',
           'mlir',
           'python',
+          'ron',
           'tablegen',
           'toml',
           'vim',
